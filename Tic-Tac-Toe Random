@@ -1,9 +1,12 @@
 from random import randrange
 
+### Create board (first move pre-played, but could easily be set to X=5) ###
 board = [["1", "2", "3"],
          ["4", "X", "6"],
          ["7", "8", "9"]]
 
+
+### Print Board with primitive text art ###
 def display(board):
     print(("+"+"-"*7)*3+"+\n"
           +"|   "+board[0][0]+"   "+"|   "+board[0][1]+"   " +"|   "+board[0][2]+"   "+"|\n"
@@ -15,7 +18,7 @@ def display(board):
         
         )
 
-
+### track all unplayed squares ###
 def free_fields(board):
     free = []
     for i in range (3):
@@ -24,6 +27,7 @@ def free_fields(board):
                 free.append(board[i][j])
     return free
 
+### Allow user to input moves ###
 def enter_move(board):
     while True:
         o_move = input("What's your move? ")
@@ -39,6 +43,7 @@ def enter_move(board):
             print("I don't think that's a legal move. Try again.")
         
 
+### Generate random move for opponent ###
 def draw_move(board):
     legal=False
     while legal==False:
@@ -50,7 +55,7 @@ def draw_move(board):
             print("And I'll play... "+str(x_move))
             legal=True
         
-
+### Recognize win condition for either side ###
 def victory(board, sign):
     v = False
     for i in range (3):
@@ -66,7 +71,7 @@ def victory(board, sign):
 
 
 
-    
+### Start game cycle ###
     
 print("Let's play Tic-Tac-Toe! I'll be X's.\n")
 
