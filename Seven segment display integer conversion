@@ -1,0 +1,53 @@
+### 0-9 patterns ###
+_0 = [['#', '#', '#'],['#', ' ', '#'],['#', ' ', '#'],['#', ' ', '#'],['#', '#', '#']]
+_1 = [[' ', ' ', '#'],[' ', ' ', '#'],[' ', ' ', '#'],[' ', ' ', '#'],[' ', ' ', '#']]
+_2 = [['#', '#', '#'],[' ', ' ', '#'],['#', '#', '#'],['#', ' ', ' '],['#', '#', '#']]
+_3 = [['#', '#', '#'],[' ', ' ', '#'],['#', '#', '#'],[' ', ' ', '#'],['#', '#', '#']]
+_4 = [['#', ' ', '#'],['#', ' ', '#'],['#', '#', '#'],[' ', ' ', '#'],[' ', ' ', '#']]
+_5 = [['#', '#', '#'],['#', ' ', ' '],['#', '#', '#'],[' ', ' ', '#'],['#', '#', '#']]
+_6 = [['#', '#', '#'],['#', ' ', ' '],['#', '#', '#'],['#', ' ', '#'],['#', '#', '#']]
+_7 = [['#', '#', '#'],[' ', ' ', '#'],[' ', ' ', '#'],[' ', ' ', '#'],[' ', ' ', '#']]
+_8 = [['#', '#', '#'],['#', ' ', '#'],['#', '#', '#'],['#', ' ', '#'],['#', '#', '#']]
+_9 = [['#', '#', '#'],['#', ' ', '#'],['#', '#', '#'],[' ', ' ', '#'],['#', '#', '#']]
+
+
+### user supplies number ###
+numb = False
+while numb == False:
+    try:
+        num = int(input("Please enter any non-negative integer: \n"))
+        if num < 0:
+            print("That's a negative number. Please try again.\n")
+        else:
+            print("")
+            numb = True
+            
+        
+    except:
+        print("That's not an integer. Please try again."+"\n" )
+        
+        
+### change digits into patterns ###
+num = str(num)
+num_list = []
+for i in num:
+    num_list.append(eval("_"+i))
+
+
+### combine patterns ###
+i = 0
+full_num = [[], [], [], [], []]
+while i<5:
+    
+    for k in num_list:
+        for j in k[i]:
+            full_num[i].append(j)
+        full_num[i].append(" ")
+    
+    i +=1
+    
+### print one row per line ###  
+for i in full_num:
+     for j in i:
+         print(j+" ", end='')
+     print(' ')
