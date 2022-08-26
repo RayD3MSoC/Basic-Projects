@@ -1,0 +1,104 @@
+################################ Encrypt user input with a basic shift cipher ############################################
+def encrypt(key=0, text=''):
+    
+    ### Get key shift from user if not specified in function call ###
+    iskey = False
+    while iskey == False:
+        try:
+            if key==0:
+                print("How much should the key be shifted by?")
+                key = input("Enter an integer between 1 and 25: ")
+                key = int(key)
+            if key > 25 or key < 1:
+                print("\n"+str(key), "is out of range. Please try again.\n")
+                key = 0
+            else:
+                iskey = True
+        except:
+            print("\n"+str(key), "is not a recognizable integer.\n")
+            key = 0
+    
+    ### Get message to be encrypted from user if not specified in function call ###
+    istext = False
+    while istext == False:
+        if text == '':
+            text = input("\nWhat is the message to be encrypted? \n")
+        if isinstance(text, str):
+            istext = True
+        else:
+            print("\nThis message isn't recognized. Please try again.\n")
+            text = ''
+            
+    ### Build the cipher ###
+    cipher = ''
+    for ch in text:
+        if ch.isalpha():
+            if ch.isupper():
+                if (ord(ch)+key) > ord('Z'):
+                    ch = chr(ord(ch) + key - 1 - ord('Z') + ord('A'))
+                else:
+                    ch = chr(ord(ch)+key)
+            else:
+                if (ord(ch)+key) > ord('z'):
+                    ch = chr(ord(ch) + key - 1 - ord('z') + ord('a'))
+                else:
+                    ch = chr(ord(ch)+key)   
+        cipher += ch
+        
+    return(cipher)
+
+
+################################ Decrypt user input with a basic shift cipher ############################################
+def decrypt(key=0, cipher=''):
+    
+    ### Get key shift from user if not specified in function call ###
+    iskey = False
+    while iskey == False:
+        try:
+            if key==0:
+                print("How much should the key be shifted by?")
+                key = input("Enter an integer between 1 and 25: ")
+                key = int(key)
+            if key > 25 or key < 1:
+                print("\n"+str(key), "is out of range. Please try again.\n")
+                key = 0
+            else:
+                iskey = True
+        except:
+            print("\n"+str(key), "is not a recognizable integer.\n")
+            key = 0
+    
+    ### Get cipher to be decrypted from user if not specified in function call ###
+    iscipher = False
+    while iscipher == False:
+        if cipher == '':
+            cipher = input("\nWhat is the message to be decrypted? \n")
+        if isinstance(cipher, str):
+            iscipher = True
+        else:
+            print("\nThis message isn't recognized. Please try again.\n")
+            cipher = ''
+            
+    ### Build the decrypted text ###
+    text = ''
+    for ch in cipher:
+        if ch.isalpha():
+            if ch.isupper():
+                if (ord(ch) - key) < ord('A'):
+                    ch = chr(ord(ch) - key + 1 + ord('Z') - ord('A'))
+                else:
+                    ch = chr(ord(ch) - key)
+            else:
+                if (ord(ch) - key) < ord('a'):
+                    ch = chr(ord(ch) - key + 1 + ord('z') - ord('a'))
+                else:
+                    ch = chr(ord(ch) - key)   
+        text += ch
+        
+    return(text)
+        
+            
+
+print("\nEncrypted Message:", encrypt())
+print("")
+print("\nDecrypted Message:", decrypt())
