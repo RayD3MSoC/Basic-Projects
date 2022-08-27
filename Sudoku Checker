@@ -1,0 +1,91 @@
+### Have user enter solution row by row and turn it into one long string ###
+sudoku_s = ''
+print("Please enter rows one at a time. Spaces ARE permitted.\n")
+for i in range (9):
+    while True:
+        new_row = input("Row " + str(i+1) + ": ")
+        new_row = new_row.replace(" ", "")
+        if len(new_row) != 9:
+            print("\nIncorrect number of characters. Try again.\n")
+        elif not new_row.isnumeric():
+            print("\nMake sure to only input numbers. Try again.\n")
+        else:
+            sudoku_s += new_row
+            break
+    
+### Generate Sudoku Matrix ###    
+sudoku = []
+for i in range (9):
+    sudoku.append([])
+    
+for i in range (9):
+    for j in range(9):
+        sudoku[i].append(sudoku_s[9*i+j])
+
+        
+### Take its transpose ###
+cols = []
+for i in range (9):
+    cols.append([])
+    
+for i in range (9):
+    for j in range(9):
+        cols[i].append(sudoku_s[i+9*j])
+        
+### Make list of 3x3 squares ###
+subs = []
+for i in range (9):
+    subs.append([])
+    
+for i in range (3):
+    for j in range(3):
+        for k in range(i*3, i*3+3):
+            for h in range(j*3, j*3+3):
+                subs[j+3*i].append(sudoku_s[h+9*k])
+        
+
+### Check rows for missing numbers ###
+valid = True
+
+bad_rows = []
+for i in range(9):
+    for j in range (1,10):
+        if str(j) not in sudoku[i]:
+            valid = False
+            if (i+1) not in bad_rows:
+                bad_rows.append(i+1)
+
+
+### Check columns for missing numbers ###
+
+bad_cols = []
+for i in range (9):
+    for j in range (1,10):
+        if str(j) not in cols[i]:
+            valid = False
+            if (i+1) not in (bad_cols):
+                bad_cols.append(i+1)
+            
+
+### Check subsquares for missing numbers ### 
+sub = True
+bad_subs = []
+for i in range (9):
+    for j in range (1,10):
+        if str(j) not in subs[i]:
+            valid = False
+            if (i+1) not in bad_subs:
+                bad_subs.append(i+1)
+
+
+
+##### Verdict and feedback #####
+if valid == False:
+    print("\nNo, this Sudoku is not valid.\n")
+    print("Missing number in row(s) ", bad_rows)
+    print("Missing number in column(s) ", bad_cols)
+    print("Missing number in subsquare(s) ", bad_subs)
+    print("(subsquares numbered from top left to bottom right)")
+
+else:
+    print("\nYes, this Sudoku is valid.\n")
