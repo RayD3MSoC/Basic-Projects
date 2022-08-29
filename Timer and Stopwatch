@@ -1,0 +1,47 @@
+class Timer:
+    def __init__(self, hours=0, minutes=0, seconds=0):
+        self.__s = seconds + 60 * minutes + 3600 * hours
+
+    def __str__(self):
+        self.__hours = str((self.__s // 3600) % 24).zfill(2)
+        self.__minutes = str((self.__s % 3600) // 60).zfill(2)
+        self.__seconds = str((self.__s % 3600) % 60).zfill(2)
+        return self.__hours + ":" + self.__minutes + ":" + self.__seconds
+
+    def next_second(self):
+        self.__s += 1
+
+    def prev_second(self):
+        if self.__s > 0:
+            self.__s -= 1
+        else:
+            self.__s += 24 * 3600 - 1
+        
+import time
+
+################################   Timer   ##################################################
+def countdown (h=23, m=59, s=59):    
+    timer = Timer(h, m, s)
+    print (timer, end='\r')
+    while timer._Timer__s != 0:
+        timer.prev_second()
+        time.sleep(1)
+        print (timer, end='\r')
+    print ("00:00:00  Countdown Over!!!")
+        
+################################### Stopwatch ##############################################
+def stopwatch (h=0, m=0, s=0):    
+    sw = Timer(h, m, s)
+    print (sw, end='\r')
+    for i in range (24*3600):
+        sw.next_second()
+        time.sleep(1)
+        print (sw, end='\r')
+    print ("It's been a day. Did you forget me?!")
+
+        
+        
+################################### Tests ####################################################
+#countdown(0,0,10)
+#countdown(23:59:59)
+stopwatch()
