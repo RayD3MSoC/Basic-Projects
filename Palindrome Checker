@@ -1,0 +1,21 @@
+function palindrome(str) {
+  
+  let strNew = str.replace(/[\W_]/g,'').toLowerCase();
+  let strArr = strNew.split('')
+  let revArr = [];
+  
+  while (strArr.length !=0) {
+    revArr.push(strArr.pop()) 
+  }
+  let revStr = revArr.join('')
+  
+  if (revStr == strNew) {
+    return true
+  } else {
+    return false
+  }
+}
+
+
+//palindrome("race car");
+//palindrome("eye");
