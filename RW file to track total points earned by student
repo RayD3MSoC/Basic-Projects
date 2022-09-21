@@ -1,0 +1,107 @@
+class StudentsDataException(Exception):
+    pass
+
+class BadLine(StudentsDataException):
+    def __init__(self, ql, message = "Data is not formatted correctly."):
+        self.ql = ql
+        self.message = message
+        super().__init__(self.message)
+
+class FileEmpty(StudentsDataException):
+    def __init__(self, ql, message = "File is empty"):
+        self.ql = ql
+        self.message = message
+        super().__init__(self.message)
+    
+    
+    
+
+def write_grades(grade_list): 
+    with open(grade_file, "w") as f:
+        f.writelines(grade_list)
+
+def read_grades(grade_file):
+    try:
+        with open(grade_file, "r") as f:
+            lines = f.readlines()
+            if len(lines) == 0:
+                raise FileEmpty
+            else:
+                return (lines)
+        
+    except (FileEmpty):
+        print("That file is empty, please try another: ")
+    except:
+        print("Something went wrong, and I don't know what... Sorry!")
+        
+
+# take the file and make it into an array of entries [ [first, last, daily score], ...]
+def listify(lines):
+    
+    try:
+        combined = []
+        for line in lines:
+            combined.append(line.replace("\n", "").replace(" ", "").split('\t'))
+        i = 0
+        while i < len(combined):
+            j=0
+            while j < len(combined[i]):
+                if len(combined[i][j]) == 0:
+                    del (combined[i][j])
+                else:
+                    j+=1
+            i+=1 
+        for item in combined:
+            if len(item)!=3:
+                raise BadLine
+            else:
+                pass
+        return (combined)
+    except (BadLine):
+        print("Data is not formatted correctly")
+    except:
+        print("Something went wrong, and I don't know what... Sorry!")
+        
+# turn list into a dictionary of combined scores        
+def dictify(combined_list):
+    combined_dict = {}
+    for item in combined_list:
+        entry = {(item[0]+" "+item[1]) : [item[2]]};
+    
+        if (item[0]+" "+item[1]) in combined_dict:
+            combined_dict[item[0]+" "+item[1]].append(item[2])
+        
+        else:
+            combined_dict.update(entry)
+    
+    for key in combined_dict:
+        tot = 0
+        for i in range (len(combined_dict[key])):
+            tot += float(combined_dict[key][i])
+        combined_dict[key] = tot
+        
+    return (combined_dict)
+
+# turn dictionary into a writable string
+def textify(dictionary):
+    combined_string = ""
+    for item in sorted(dictionary, key = lambda x: x[2], reverse = True):
+        combined_string+=item.replace(" ", "\t")+"\t"+str(dictionary[item])+"\n"
+    print (combined_string)
+    return(combined_string)
+
+
+# combine all functions    
+def by_our_powers_combined(txt, file):
+    write_grades(txt)
+    lines = read_grades(file)
+    combined = listify(lines)
+    combined_dict = dictify(combined)
+    grade_txt_new = textify(combined_dict)
+    write_grades(grade_txt_new)
+
+# call functions
+
+grade_file = "samplefile.txt"
+grade_txt = ["John\tSmith\t5\n", "Anna\tBoleyn\t\t4.5\n", "John\tSmith\t\t2\n", "Anna\tBoleyn\t\t11\n", "Andrew\tCox\t\t1.5\n"]
+by_our_powers_combined(grade_txt, grade_file)
