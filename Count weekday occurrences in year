@@ -1,0 +1,24 @@
+import calendar
+
+class MyCalendar(calendar.Calendar):
+    def __init__(self):
+        super().__init__()
+    
+    def count_weekday_in_year(self, year, weekday):
+        counter = 0
+        for i in range (1, 13):
+            days_month = self.monthdays2calendar(year, i)
+            for j in days_month:
+                for k in j:
+                    if (k[0] != 0 and k[1] == weekday):
+                        counter +=1
+        return counter
+        
+
+        
+        
+        
+c = MyCalendar()
+
+print(c.count_weekday_in_year(2019, 0))
+print(c.count_weekday_in_year(2000, 6))
