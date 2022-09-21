@@ -1,0 +1,47 @@
+function convertToRoman(num) {
+ const chart = ['I', 'V', 'X', 'L', 'C', 'D', 'M']
+ // 1=e, 2=ee, 3=eee, 4=e(e+1), 5=(e+1), 
+ // 6=(e+1)e, 7=(e+1)ee, 8=(e+1)eee, 9=e(e+2)
+
+ let numStr = (num).toString();
+ let romanNum = ""
+ 
+ for (let i = 0; i < numStr.length; i++) {
+   
+   switch (numStr[numStr.length - i - 1]) {
+     case "1":
+       romanNum = chart[2*i] + romanNum;
+       {break}
+     case "2":
+       romanNum = chart[2*i].repeat(2) + romanNum;
+       {break}
+     case "3":
+       romanNum = chart[2*i].repeat(3) + romanNum;
+       {break}
+     case "4":
+       romanNum = chart[2*i] + chart[2*i+1] + romanNum;
+       {break}
+     case "5":
+       romanNum = chart[2*i+1] + romanNum;
+       {break}
+     case "6":
+       romanNum = chart[2*i+1] + chart[2*i] + romanNum;
+       {break}
+     case "7":
+       romanNum = chart[2*i+1] + chart[2*i].repeat(2) + romanNum;
+       {break}
+     case "8":
+       romanNum = chart[2*i+1] + chart[2*i].repeat(3) + romanNum;
+       {break}
+     case "9":
+       romanNum = chart[2*i] + chart[2*i+2] + romanNum;
+       {break}
+     default:
+       console.log("no match?")
+   }
+ }
+ //console.log(romanNum)
+ return romanNum;
+}
+
+convertToRoman(36);
