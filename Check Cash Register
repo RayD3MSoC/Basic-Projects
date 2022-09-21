@@ -1,0 +1,125 @@
+function checkCashRegister(price, cash, cid) {
+  let chVal = cash - price;
+  let n100 = cid[8][1]/100;
+  let n20 = cid[7][1]/20;
+  let n10 = cid[6][1]/10;
+  let n5 = cid[5][1]/5;
+  let n1 = cid[4][1]/1;
+  let n25c = cid[3][1]/.25;
+  let n10c = cid[2][1]/.1;
+  let n5c = cid[1][1]/.05;
+  let n1c = cid[0][1]/.01;
+  let cTotal = n100*100+n20*20+n10*10+n5*5+n1+n25c*.25+n10c*.1+n5c*.05+n1c*.01
+
+  let chArr = []
+  let stat = "OPEN"
+
+  if (chVal > cTotal) {
+    stat = "INSUFFICIENT_FUNDS";
+    return {status: stat, change: chArr}
+  }
+
+  if (chVal == cTotal) {
+    stat = "CLOSED";
+    return {status: stat, change: cid}
+  }
+  
+  let chNeeded = chVal;
+  //console.log(cTotal)
+  
+  let n100Cust = 0;
+  while (n100Cust < n100 && 100*(n100Cust + 1) <= chNeeded){
+    n100Cust++
+  } 
+  chNeeded = Math.round((chNeeded - 100*n100Cust)*100)/100;
+  if (n100Cust > 0){
+    chArr.push(["ONE HUNDRED", 100*n100Cust])
+  }
+  
+  let n20Cust = 0;
+  while (n20Cust < n20 && 20*(n20Cust + 1) <= chNeeded){
+    n20Cust++
+  } 
+  chNeeded = Math.round((chNeeded - 20*n20Cust)*100)/100;
+  if (n20Cust > 0){
+    chArr.push(["TWENTY", 20*n20Cust])
+  }
+
+  let n10Cust = 0;
+  while (n10Cust < n10 && 10*(n10Cust + 1) <= chNeeded){
+    n10Cust++
+  } 
+  chNeeded = Math.round((chNeeded - 10*n10Cust)*100)/100;
+  if (n10Cust > 0){
+    chArr.push(["TEN", 10*n10Cust])
+  }
+
+  let n5Cust = 0;
+  while (n5Cust < n5 && 5*(n5Cust + 1) <= chNeeded){
+    n5Cust++
+  } 
+  chNeeded = Math.round((chNeeded - 5*n5Cust)*100)/100;
+  if (n5Cust > 0){
+    chArr.push(["FIVE", 5*n5Cust])
+  }
+
+  let n1Cust = 0;
+  while (n1Cust < n1 && 1*(n1Cust + 1) <= chNeeded){
+    n1Cust++
+  } 
+  chNeeded = Math.round((chNeeded - 1*n1Cust)*100)/100;
+  if (n1Cust > 0){
+    chArr.push(["ONE", 1*n1Cust])
+  }
+
+  let n25cCust = 0;
+  while (n25cCust < n25c && .25*(n25cCust + 1) <= chNeeded){
+    n25cCust++
+  } 
+  chNeeded = Math.round((chNeeded - .25*n25cCust)*100)/100;
+  if (n25cCust > 0){
+    chArr.push(["QUARTER", .25*n25cCust])
+  }
+
+  let n10cCust = 0;
+  while (n10cCust < n10c && .1*(n10cCust + 1) <= chNeeded){
+    n10cCust++
+  } 
+  chNeeded = Math.round((chNeeded - .1*n10cCust)*100)/100;
+  if (n10cCust > 0){
+    chArr.push(["DIME", .1*n10cCust])
+  }
+
+  let n5cCust = 0;
+  while (n5cCust < n5c && .05*(n5cCust + 1) <= chNeeded){
+    n5cCust++
+  } 
+  chNeeded = Math.round((chNeeded - .05*n5cCust)*100)/100;
+  if (n5cCust > 0){
+    chArr.push(["NICKEL", .05*n5cCust])
+  }
+
+  let n1cCust = 0;
+  while (n1cCust < n1c && .01*(n1cCust + 1) <= chNeeded){
+    n1cCust++
+  } 
+  chNeeded = Math.round((chNeeded - .01*n1cCust)*100)/100;
+  if (n1cCust > 0){
+    chArr.push(["PENNY", .01*n1cCust])
+  }
+
+  if (chNeeded != 0) {
+    stat = "INSUFFICIENT_FUNDS";
+    chArr = []
+  }
+
+  //console.log({status: stat, change: chArr})
+  
+  return {status: stat, change: chArr};
+}
+
+//checkCashRegister(19.5, 20, [["PENNY", 0.5], ["NICKEL", 0], ["DIME", 0], ["QUARTER", 0], ["ONE", 0], ["FIVE", 0], ["TEN", 0], ["TWENTY", 0], ["ONE HUNDRED", 0]])
+
+//checkCashRegister(3.26, 100, [["PENNY", 1.01], ["NICKEL", 2.05], ["DIME", 3.1], ["QUARTER", 4.25], ["ONE", 90], ["FIVE", 55], ["TEN", 20], ["TWENTY", 60], ["ONE HUNDRED", 100]])
+
+//checkCashRegister(19.5, 20, [["PENNY", 1.01], ["NICKEL", 2.05], ["DIME", 3.1], ["QUARTER", 4.25], ["ONE", 90], ["FIVE", 55], ["TEN", 20], ["TWENTY", 60], ["ONE HUNDRED", 100]]);
